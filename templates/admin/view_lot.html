@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Details for {{ lot.name }}{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary mb-3"><i class="bi bi-arrow-left me-2"></i>Back to Dashboard</a>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header"><h2 class="mb-0">Lot Details: {{ lot.name }}</h2></div>
+            <div class="card-body">
+                <p><strong>Address:</strong> {{ lot.address }}, {{ lot.pin_code }}</p>
+                <p><strong>4-Wheeler Capacity:</strong> {{ lot.capacity_4_wheeler }} spots</p>
+                <p><strong>Price per Hour:</strong> ₹{{ "%.2f"|format(lot.price_per_hour_4_wheeler) }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header"><h5 class="mb-0 text-center">Live Occupancy</h5></div>
+            <div class="card-body d-flex justify-content-center align-items-center">
+                <div style="max-width: 200px; width: 100%;">
+                    <canvas id="lotOccupancyChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3 class="mb-3">Parking Spot Status (Click a spot to view its history)</h3>
+<div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3">
+    {% for spot in spots %}
+    <div class="col">
+        <a href="{{ url_for('spot_history', spot_id=spot.id) }}" class="text-decoration-none">
+            <div class="card text-center spot-card {% if spot.status %}bg-success{% else %}bg-danger{% endif %}">
+                <div class="card-body p-2">
+                    <h5 class="card-title mb-1">Spot {{ spot.spot_number }}</h5>
+                    <p class="card-text fw-bold">
+                        {% if spot.status %}<i class="bi bi-check-circle-fill me-1"></i>Available{% else %}<i class="bi bi-x-circle-fill me-1"></i>Occupied{% endif %}
+                    </p>
+                    {% if spot.active_booking %}
+                        <hr class="my-1"><small><strong>Vehicle:</strong> {{ spot.active_booking.vehicle_number }}</small><br><small><strong>User:</strong> {{ spot.active_booking.user.username }}</small>
+                    {% endif %}
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const lotCtx = document.getElementById('lotOccupancyChart');
+    if (lotCtx) {
+        new Chart(lotCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Occupied', 'Available'],
+                datasets: [{
+                    data: [{{ chart_data.occupied }}, {{ chart_data.available }}],
+                    backgroundColor: ['rgb(220, 53, 69)', 'rgb(25, 135, 84)'],
+                    borderColor: ['#ffffff', '#ffffff'],
+                    borderWidth: 2
+                }]
+            },
+            options: { responsive: true, plugins: { legend: { display: false } } }
+        });
+    }
+</script>
+{% endblock %}

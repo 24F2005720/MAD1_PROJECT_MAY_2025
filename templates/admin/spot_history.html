@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}History for Spot {{ spot.spot_number }}{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('view_lot', lot_id=spot.lot.id) }}" class="btn btn-outline-secondary mb-3"><i class="bi bi-arrow-left me-2"></i>Back to {{ spot.lot.name }}</a>
+
+<h2 class="mb-3">Booking History for Spot {{ spot.spot_number }} ({{ spot.lot.name }})</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        {% if bookings %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Vehicle No.</th>
+                        <th>Entry Time</th>
+                        <th>Exit Time</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.user.username }}</td>
+                        <td>{{ booking.vehicle_number }}</td>
+                        <td>{{ booking.entry_time.strftime('%d %b %Y, %I:%M %p') }}</td>
+                        <td>
+                            {% if booking.exit_time %}
+                                {{ booking.exit_time.strftime('%d %b %Y, %I:%M %p') }}
+                            {% else %}
+                                <span class="badge bg-success">Active</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if booking.cost is not none %}
+                                ₹{{ "%.2f"|format(booking.cost) }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-center text-muted mt-3">This parking spot has no booking history.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

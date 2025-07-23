@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit {{ lot.name }}{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary mb-3">← Back to Dashboard</a>
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h2 class="mb-0">Edit Parking Lot</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('update_lot', lot_id=lot.id) }}">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Lot Name / Location</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ lot.name }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="address" name="address" value="{{ lot.address }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="pin_code" class="form-label">Pin Code</label>
+                        <input type="text" class="form-control" id="pin_code" name="pin_code" value="{{ lot.pin_code }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="capacity_4_wheeler" class="form-label">4-Wheeler Capacity</label>
+                        <input type="number" class="form-control" id="capacity_4_wheeler" name="capacity_4_wheeler" value="{{ lot.capacity_4_wheeler }}" min="1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="price_per_hour_4_wheeler" class="form-label">Price per Hour (₹)</label>
+                        <input type="number" class="form-control" id="price_per_hour_4_wheeler" name="price_per_hour_4_wheeler" value="{{ lot.price_per_hour_4_wheeler }}" min="0" step="0.01" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Update Lot</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Details for {{ user.username }}{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('view_users') }}" class="btn btn-outline-secondary mb-3"><i class="bi bi-arrow-left me-2"></i>Back to All Users</a>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header">
+        <h2 class="mb-0">User Profile: {{ user.username }}</h2>
+    </div>
+    <div class="card-body">
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Phone Number:</strong> {{ user.phone_number }}</p>
+        <p><strong>Role:</strong> {{ user.role }}</p>
+    </div>
+</div>
+
+<h3 class="mb-3">Booking History</h3>
+<div class="card shadow-sm">
+    <div class="card-body">
+        {% if bookings %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Lot Name</th>
+                        <th>Spot No.</th>
+                        <th>Vehicle No.</th>
+                        <th>Entry Time</th>
+                        <th>Exit Time</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.spot.lot.name }}</td>
+                        <td>{{ booking.spot.spot_number }}</td>
+                        <td>{{ booking.vehicle_number }}</td>
+                        <td>{{ booking.entry_time.strftime('%d %b %Y, %I:%M %p') }}</td>
+                        <td>
+                            {% if booking.exit_time %}
+                                {{ booking.exit_time.strftime('%d %b %Y, %I:%M %p') }}
+                            {% else %}
+                                <span class="badge bg-success">Active</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if booking.cost is not none %}
+                                ₹{{ "%.2f"|format(booking.cost) }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-center text-muted mt-3">This user has no booking history.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

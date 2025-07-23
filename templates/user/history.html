@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Booking History{% endblock %}
+
+{% block content %}
+<h1 class="h2 mb-4">Your Booking History</h1>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header">
+        <h4 class="mb-0">Your Monthly Spending</h4>
+    </div>
+    <div class="card-body">
+        <canvas id="spendingChart"></canvas>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        {% if bookings %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Lot Name</th>
+                        <th>Vehicle No.</th>
+                        <th>Entry Time</th>
+                        <th>Exit Time</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.spot.lot.name }}</td>
+                        <td>{{ booking.vehicle_number }}</td>
+                        <td>{{ booking.entry_time.strftime('%d %b %Y, %I:%M %p') }}</td>
+                        <td>{{ booking.exit_time.strftime('%d %b %Y, %I:%M %p') }}</td>
+                        <td>₹{{ "%.2f"|format(booking.cost) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-center text-muted">You have no past bookings.</p>
+        {% endif %}
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const spendingCtx = document.getElementById('spendingChart');
+    new Chart(spendingCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ chart_labels | tojson }},
+            datasets: [{
+                label: 'Total Spent (₹)',
+                data: {{ chart_values | tojson }},
+                backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                borderColor: 'rgba(0, 123, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome to Quick Park{% endblock %}
+
+{% block content %}
+<div class="text-center hero-section shadow-lg mb-5">
+    <h1 class="display-4 fw-bold">Find Your Spot, Instantly.</h1>
+    <p class="fs-4 col-md-8 mx-auto">The future of stress-free parking is here. Join thousands of drivers who park smarter with Quick Park.</p>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4">
+        <a href="{{ url_for('login') }}" class="btn btn-light btn-lg px-4 gap-3">Login</a>
+        <a href="{{ url_for('register') }}" class="btn btn-outline-light btn-lg px-4">Register Now</a>
+    </div>
+</div>
+{% endblock %}
