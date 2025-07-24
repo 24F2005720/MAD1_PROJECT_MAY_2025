@@ -1,0 +1,90 @@
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa; 
+    color: #343a40;
+}
+
+.navbar-brand {
+    font-weight: 600;
+}
+
+.btn {
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+    background-color: #0056b3;
+    border-color: #004a99;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.card-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e9ecef;
+    font-weight: 600;
+}
+
+.form-control {
+    border-radius: 0.5rem;
+}
+
+.form-control:focus {
+    border-color: #0056b3;
+    box-shadow: 0 0 0 0.25rem rgba(0, 86, 179, 0.25);
+}
+
+.hero-section {
+    background: linear-gradient(45deg, #0056b3, #007bff);
+    color: white;
+    padding: 6rem 0;
+    border-radius: 0.75rem;
+}
+
+.auth-card {
+    max-width: 450px;
+    margin: 2rem auto;
+}
+
+.spot-card {
+    border-radius: 0.5rem;
+    color: white;
+}
+
+.spot-card.bg-success {
+    background-color: #198754 !important;
+}
+
+.spot-card.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+.spot-card h5 {
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.footer {
+    background-color: #343a40;
+    color: #f8f9fa;
+    padding: 2rem 0;
+    margin-top: 4rem;
+}
